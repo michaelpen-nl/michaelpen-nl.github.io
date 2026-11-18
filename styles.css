@@ -354,9 +354,28 @@ h2 {
   margin: 0;
 }
 
+.research-card p + p {
+  margin-top: 1rem;
+}
+
 .publication-card p {
   color: var(--card-muted);
   font-size: 0.94rem;
+}
+
+.card-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  color: var(--card-muted);
+  font-size: 0.94rem;
+}
+
+.publication-card p + .card-list {
+  margin-top: 0.65rem;
+}
+
+.card-list li + li {
+  margin-top: 0.65rem;
 }
 
 .contact-links {
