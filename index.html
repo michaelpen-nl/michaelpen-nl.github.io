@@ -24,7 +24,34 @@
 
       <main id="home">
         <section class="hero" aria-label="Profile">
-          <div class="hero-spacer" aria-hidden="true"></div>
+          <div class="profile-cv">
+            <section class="profile-cv-section" aria-labelledby="research-interests-heading">
+              <div class="profile-cv-heading">
+                <h2 id="research-interests-heading">Research Interests</h2>
+                <span aria-hidden="true"></span>
+              </div>
+              <ul>
+                <li>Microeconometrics</li>
+                <li>Random Coefficients Models</li>
+                <li>Machine Learning in Econometrics</li>
+                <li>Discrete Choice Models</li>
+                <li>Health and Labour Economics</li>
+              </ul>
+            </section>
+            <section class="profile-cv-section" aria-labelledby="previous-education-heading">
+              <div class="profile-cv-heading">
+                <h2 id="previous-education-heading">Previous Education</h2>
+                <span aria-hidden="true"></span>
+              </div>
+              <ul>
+                <li>Pre-University Education, Lyceum aan Zee (2011-2017)</li>
+                <li>BSc. Economics and Business Economics, University of Groningen (2018-2021)</li>
+                <li>Pre-MSc Econometrics, Operations Research and Actuarial Science, University of Groningen (2021-2022)</li>
+                <li>MSc Economics, University of Groningen (2021-2023)</li>
+                <li>MSc Econometrics, Operations Research and Actuarial Science, University of Groningen (2022-2023)</li>
+              </ul>
+            </section>
+          </div>
           <aside class="profile-sidebar" aria-label="Profile photo and details">
             <img class="profile-photo" src="images/michael-pen.jpg" alt="Portrait of Michael Pen">
             <div class="profile-name-card">
@@ -90,20 +117,92 @@
           </p>
         </section>
 
-        <section class="content-grid" id="expertise" aria-label="Expertise">
+        <section class="content-grid" id="learning-blog" aria-label="Learning Blog">
           <div>
-            <p class="section-label">02 / Expertise</p>
+            <p class="section-label">02 / Learning Blog</p>
           </div>
-          <article class="research-card">
+          <article class="research-card learning-blog-card">
+            <h3>Approximating a continuous distribution with grid points</h3>
             <p>
-              I am a PhD candidate in econometrics at the University of
-              Groningen’s Faculty of Economics and Business. My main research
-              interests are random coefficients models, (semi-)nonparametric
-              estimation, and applications in health and labour economics.
+              Suppose a random coefficient follows a standard normal
+              distribution. The solid curve shows its continuous CDF, while
+              the stepped curve shows a discrete approximation using
+              equally-weighted quantile grid points. Use the slider to change
+              the number of grid points, R, and see how the approximation
+              improves as R increases.
             </p>
+            <div class="cdf-widget">
+              <div class="cdf-chart-wrap">
+                <svg
+                  class="cdf-chart"
+                  viewBox="0 0 640 360"
+                  role="img"
+                  aria-labelledby="cdf-chart-title cdf-chart-description"
+                >
+                  <title id="cdf-chart-title">Continuous and discrete CDF approximation</title>
+                  <desc id="cdf-chart-description">
+                    The standard normal cumulative distribution function and a
+                    discrete approximation using the selected number of
+                    equally-weighted grid points.
+                  </desc>
+                  <g class="cdf-chart-grid" aria-hidden="true">
+                    <line x1="56" y1="24" x2="620" y2="24"></line>
+                    <line x1="56" y1="91.75" x2="620" y2="91.75"></line>
+                    <line x1="56" y1="159.5" x2="620" y2="159.5"></line>
+                    <line x1="56" y1="227.25" x2="620" y2="227.25"></line>
+                    <line x1="56" y1="295" x2="620" y2="295"></line>
+                    <line x1="56" y1="24" x2="56" y2="295"></line>
+                    <line x1="96.29" y1="24" x2="96.29" y2="295"></line>
+                    <line x1="176.86" y1="24" x2="176.86" y2="295"></line>
+                    <line x1="257.43" y1="24" x2="257.43" y2="295"></line>
+                    <line x1="338" y1="24" x2="338" y2="295"></line>
+                    <line x1="418.57" y1="24" x2="418.57" y2="295"></line>
+                    <line x1="499.14" y1="24" x2="499.14" y2="295"></line>
+                    <line x1="579.71" y1="24" x2="579.71" y2="295"></line>
+                    <text x="46" y="299" text-anchor="end">0</text>
+                    <text x="46" y="231" text-anchor="end">0.25</text>
+                    <text x="46" y="163" text-anchor="end">0.5</text>
+                    <text x="46" y="95" text-anchor="end">0.75</text>
+                    <text x="46" y="28" text-anchor="end">1</text>
+                    <text x="96.29" y="315" text-anchor="middle">−3</text>
+                    <text x="176.86" y="315" text-anchor="middle">−2</text>
+                    <text x="257.43" y="315" text-anchor="middle">−1</text>
+                    <text x="338" y="315" text-anchor="middle">0</text>
+                    <text x="418.57" y="315" text-anchor="middle">1</text>
+                    <text x="499.14" y="315" text-anchor="middle">2</text>
+                    <text x="579.71" y="315" text-anchor="middle">3</text>
+                    <text x="338" y="349" text-anchor="middle">Random coefficient value (x)</text>
+                    <text transform="rotate(-90 14 160)" x="14" y="160" text-anchor="middle">Cumulative probability</text>
+                  </g>
+                  <path id="continuous-cdf-curve" class="cdf-curve cdf-curve-continuous"></path>
+                  <path id="discrete-cdf-curve" class="cdf-curve cdf-curve-discrete"></path>
+                  <g id="grid-support-points" class="cdf-support-points" aria-hidden="true"></g>
+                </svg>
+              </div>
+              <div class="cdf-legend" aria-label="Chart legend">
+                <span><span class="cdf-legend-line cdf-legend-continuous" aria-hidden="true"></span>Continuous standard normal CDF</span>
+                <span><span class="cdf-legend-line cdf-legend-discrete" aria-hidden="true"></span>Discrete grid approximation</span>
+              </div>
+              <div class="cdf-control">
+                <label for="grid-count">Number of grid points (R)</label>
+                <output id="grid-count-value" for="grid-count" aria-live="polite">4</output>
+                <input
+                  id="grid-count"
+                  type="range"
+                  min="1"
+                  max="40"
+                  step="1"
+                  value="4"
+                  aria-describedby="grid-count-description"
+                >
+                <p id="grid-count-description">
+                  Each grid point is a midpoint quantile and receives equal
+                  weight.
+                </p>
+              </div>
+            </div>
           </article>
         </section>
-
       </main>
 
       <footer>
@@ -112,6 +211,100 @@
     </div>
     <script>
       document.getElementById("year").textContent = new Date().getFullYear();
+
+      const gridCount = document.getElementById("grid-count");
+      const gridCountValue = document.getElementById("grid-count-value");
+      const continuousCurve = document.getElementById("continuous-cdf-curve");
+      const discreteCurve = document.getElementById("discrete-cdf-curve");
+      const supportPoints = document.getElementById("grid-support-points");
+      const svgNamespace = "http://www.w3.org/2000/svg";
+      const xMinimum = -3.5;
+      const xMaximum = 3.5;
+      const xLeft = 56;
+      const xRight = 620;
+      const yTop = 24;
+      const yBottom = 295;
+
+      function standardNormalCdf(value) {
+        const absoluteValue = Math.abs(value);
+        const t = 1 / (1 + 0.2316419 * absoluteValue);
+        const density = 0.3989423 * Math.exp(-0.5 * absoluteValue * absoluteValue);
+        const tail = density * t * (
+          0.3193815 +
+          t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274)))
+        );
+        return value >= 0 ? 1 - tail : tail;
+      }
+
+      function standardNormalQuantile(probability) {
+        let lower = -8;
+        let upper = 8;
+        for (let iteration = 0; iteration < 56; iteration += 1) {
+          const midpoint = (lower + upper) / 2;
+          if (standardNormalCdf(midpoint) < probability) {
+            lower = midpoint;
+          } else {
+            upper = midpoint;
+          }
+        }
+        return (lower + upper) / 2;
+      }
+
+      function chartX(value) {
+        return xLeft + ((value - xMinimum) / (xMaximum - xMinimum)) * (xRight - xLeft);
+      }
+
+      function chartY(probability) {
+        return yBottom - probability * (yBottom - yTop);
+      }
+
+      function updateCdfChart() {
+        const count = Number(gridCount.value);
+        gridCountValue.value = count;
+
+        const continuousCommands = [];
+        const sampleCount = 140;
+        for (let index = 0; index <= sampleCount; index += 1) {
+          const value = xMinimum + (index / sampleCount) * (xMaximum - xMinimum);
+          continuousCommands.push(
+            `${index === 0 ? "M" : "L"} ${chartX(value).toFixed(2)} ${chartY(standardNormalCdf(value)).toFixed(2)}`
+          );
+        }
+        continuousCurve.setAttribute("d", continuousCommands.join(" "));
+
+        const quantiles = [];
+        for (let index = 0; index < count; index += 1) {
+          quantiles.push(standardNormalQuantile((index + 0.5) / count));
+        }
+
+        let cumulativeProbability = 0;
+        const discreteCommands = [`M ${xLeft} ${chartY(cumulativeProbability)}`];
+        for (const quantile of quantiles) {
+          const x = chartX(quantile).toFixed(2);
+          discreteCommands.push(
+            `L ${x} ${chartY(cumulativeProbability).toFixed(2)}`,
+            `L ${x} ${chartY(cumulativeProbability + 1 / count).toFixed(2)}`
+          );
+          cumulativeProbability += 1 / count;
+        }
+        discreteCommands.push(`L ${xRight} ${chartY(cumulativeProbability).toFixed(2)}`);
+        discreteCurve.setAttribute("d", discreteCommands.join(" "));
+
+        supportPoints.replaceChildren();
+        for (const quantile of quantiles) {
+          const marker = document.createElementNS(svgNamespace, "line");
+          const x = chartX(quantile).toFixed(2);
+          marker.setAttribute("x1", x);
+          marker.setAttribute("x2", x);
+          marker.setAttribute("y1", String(yBottom + 4));
+          marker.setAttribute("y2", String(yBottom + 12));
+          marker.setAttribute("class", "cdf-support-point");
+          supportPoints.append(marker);
+        }
+      }
+
+      gridCount.addEventListener("input", updateCdfChart);
+      updateCdfChart();
     </script>
   </body>
 </html>
