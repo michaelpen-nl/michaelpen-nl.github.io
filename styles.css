@@ -144,6 +144,19 @@ main {
   margin-bottom: 12px;
 }
 
+.learning-blog-content {
+  min-width: 0;
+}
+
+.learning-blog-card {
+  width: 100%;
+  padding: 26px 28px;
+  color: var(--card-ink);
+  background: var(--card);
+  border: 1px solid #e4d4bd;
+  border-radius: 4px;
+}
+
 .learning-blog-card > p {
   margin-bottom: 1.25rem;
 }
@@ -248,6 +261,144 @@ main {
   margin: 0;
   color: var(--card-muted);
   font-size: 0.86rem;
+}
+
+.learning-blog-card + .learning-blog-card {
+  margin-top: 24px;
+}
+
+.glucose-disclaimer {
+  padding: 12px 14px;
+  border-left: 3px solid #b5312d;
+  background: rgba(181, 49, 45, 0.08);
+  color: var(--card-ink);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.glucose-chart-wrap {
+  overflow-x: auto;
+}
+
+.glucose-chart {
+  display: block;
+  width: 100%;
+  min-width: 520px;
+  height: auto;
+}
+
+.glucose-target-band {
+  fill: rgba(89, 133, 92, 0.13);
+}
+
+.glucose-chart-grid line {
+  stroke: #ded1bd;
+  stroke-width: 1;
+}
+
+.glucose-chart-grid text {
+  fill: var(--card-muted);
+  font-family: var(--sans);
+  font-size: 12px;
+}
+
+.glucose-prediction-curve {
+  fill: none;
+  stroke: #b5312d;
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.glucose-end-point {
+  fill: var(--card);
+  stroke: #b5312d;
+  stroke-width: 3;
+}
+
+.glucose-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 12px;
+  color: var(--card-muted);
+  font-size: 0.84rem;
+}
+
+.glucose-legend-line {
+  display: inline-block;
+  width: 22px;
+  margin-right: 7px;
+  border-top: 3.5px solid #b5312d;
+  vertical-align: middle;
+}
+
+.glucose-legend-band {
+  display: inline-block;
+  width: 22px;
+  height: 10px;
+  margin-right: 7px;
+  background: rgba(89, 133, 92, 0.13);
+  border: 1px solid rgba(89, 133, 92, 0.35);
+  vertical-align: middle;
+}
+
+.glucose-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.glucose-results div {
+  display: grid;
+  gap: 3px;
+  padding: 10px 12px;
+  border: 1px solid #d6c3aa;
+}
+
+.glucose-results span {
+  color: var(--card-muted);
+  font-size: 0.78rem;
+}
+
+.glucose-results strong {
+  color: var(--card-ink);
+  font-size: 1rem;
+}
+
+.glucose-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #d6c3aa;
+}
+
+.glucose-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 5px 10px;
+}
+
+.glucose-control label,
+.glucose-control output {
+  color: var(--card-ink);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.glucose-control output {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.glucose-control input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: #b5312d;
 }
 
 .eyebrow {
@@ -596,6 +747,11 @@ footer {
     grid-template-columns: 1fr;
     gap: 18px;
     padding-block: 38px;
+  }
+
+  .glucose-controls,
+  .glucose-results {
+    grid-template-columns: 1fr;
   }
 }
 

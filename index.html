@@ -9,7 +9,7 @@
     >
     <meta name="theme-color" content="#f6f7f4">
     <title>Michael Pen — Econometrics PhD Candidate</title>
-    <link rel="stylesheet" href="styles.css?v=3">
+    <link rel="stylesheet" href="styles.css?v=6">
   </head>
   <body>
     <div class="page">
@@ -122,6 +122,7 @@
           <div>
             <p class="section-label">02 / Learning Blog</p>
           </div>
+          <div class="learning-blog-content">
           <article class="research-card learning-blog-card">
             <h3>Approximating a continuous distribution with grid points</h3>
             <p>
@@ -203,6 +204,124 @@
               </div>
             </div>
           </article>
+          <article class="research-card learning-blog-card glucose-card">
+            <h3>Six-hour glucose prediction</h3>
+            <p>
+              Adjust the model inputs to explore how a meal and rapid-acting
+              insulin might affect an illustrative glucose curve over six
+              hours.
+            </p>
+            <p class="glucose-disclaimer">
+              This is a simplified educational model, not a validated clinical
+              model or dosing advice. Parameters do not reproduce every
+              individual response. Please use a diabetes care plan and consult
+              a healthcare professional for real decisions.
+            </p>
+            <div class="glucose-widget">
+              <div class="glucose-chart-wrap">
+                <svg
+                  class="glucose-chart"
+                  viewBox="0 0 640 390"
+                  role="img"
+                  aria-labelledby="glucose-chart-title glucose-chart-description"
+                >
+                  <title id="glucose-chart-title">Illustrative six-hour glucose prediction</title>
+                  <desc id="glucose-chart-description">
+                    A simplified predicted glucose curve based on starting
+                    glucose, carbohydrates, insulin units, timing, insulin
+                    carbohydrate ratio, and insulin sensitivity.
+                  </desc>
+                  <rect class="glucose-target-band" x="56" y="244" width="564" height="67"></rect>
+                  <g class="glucose-chart-grid" aria-hidden="true">
+                    <line x1="56" y1="24" x2="620" y2="24"></line>
+                    <line x1="56" y1="79" x2="620" y2="79"></line>
+                    <line x1="56" y1="134" x2="620" y2="134"></line>
+                    <line x1="56" y1="189" x2="620" y2="189"></line>
+                    <line x1="56" y1="244" x2="620" y2="244"></line>
+                    <line x1="56" y1="299" x2="620" y2="299"></line>
+                    <line x1="56" y1="354" x2="620" y2="354"></line>
+                    <line x1="56" y1="24" x2="56" y2="354"></line>
+                    <line x1="150" y1="24" x2="150" y2="354"></line>
+                    <line x1="244" y1="24" x2="244" y2="354"></line>
+                    <line x1="338" y1="24" x2="338" y2="354"></line>
+                    <line x1="432" y1="24" x2="432" y2="354"></line>
+                    <line x1="526" y1="24" x2="526" y2="354"></line>
+                    <line x1="620" y1="24" x2="620" y2="354"></line>
+                    <text x="46" y="358" text-anchor="end">0</text>
+                    <text x="46" y="303" text-anchor="end">5</text>
+                    <text x="46" y="248" text-anchor="end">10</text>
+                    <text x="46" y="193" text-anchor="end">15</text>
+                    <text x="46" y="138" text-anchor="end">20</text>
+                    <text x="46" y="83" text-anchor="end">25</text>
+                    <text x="46" y="28" text-anchor="end">30</text>
+                    <text x="56" y="374" text-anchor="middle">0 h</text>
+                    <text x="150" y="374" text-anchor="middle">1 h</text>
+                    <text x="244" y="374" text-anchor="middle">2 h</text>
+                    <text x="338" y="374" text-anchor="middle">3 h</text>
+                    <text x="432" y="374" text-anchor="middle">4 h</text>
+                    <text x="526" y="374" text-anchor="middle">5 h</text>
+                    <text x="620" y="374" text-anchor="middle">6 h</text>
+                    <text x="338" y="389" text-anchor="middle">Time after meal</text>
+                    <text transform="rotate(-90 14 189)" x="14" y="189" text-anchor="middle">Glucose (mmol/l)</text>
+                  </g>
+                  <path id="glucose-prediction-curve" class="glucose-prediction-curve"></path>
+                  <circle id="glucose-end-point" class="glucose-end-point" r="5"></circle>
+                </svg>
+              </div>
+              <div class="glucose-legend" aria-label="Chart legend">
+                <span><span class="glucose-legend-line" aria-hidden="true"></span>Predicted glucose</span>
+                <span><span class="glucose-legend-band" aria-hidden="true"></span>Illustrative 3.9-10 mmol/l band</span>
+              </div>
+              <div class="glucose-results" aria-live="polite">
+                <div>
+                  <span>Meal insulin estimate</span>
+                  <strong id="glucose-meal-bolus">0.0 units</strong>
+                </div>
+                <div>
+                  <span>Glucose change at 6 h</span>
+                  <strong id="glucose-end-change">0.0 mmol/l</strong>
+                </div>
+              </div>
+              <div class="glucose-controls">
+                <div class="glucose-control">
+                  <label for="start-glucose">Start glucose</label>
+                  <output id="start-glucose-value" for="start-glucose">8.0 mmol/l</output>
+                  <input id="start-glucose" type="range" min="3" max="20" step="0.1" value="8">
+                </div>
+                <div class="glucose-control">
+                  <label for="carbohydrates">Carbohydrates</label>
+                  <output id="carbohydrates-value" for="carbohydrates">50 g</output>
+                  <input id="carbohydrates" type="range" min="0" max="100" step="1" value="50">
+                </div>
+                <div class="glucose-control">
+                  <label for="insulin-units">Rapid-acting insulin</label>
+                  <output id="insulin-units-value" for="insulin-units">5.0 units</output>
+                  <input id="insulin-units" type="range" min="0" max="15" step="0.5" value="5">
+                </div>
+                <div class="glucose-control">
+                  <label for="insulin-onset">Insulin onset time</label>
+                  <output id="insulin-onset-value" for="insulin-onset">15 min</output>
+                  <input id="insulin-onset" type="range" min="0" max="30" step="1" value="15">
+                </div>
+                <div class="glucose-control">
+                  <label for="insulin-duration">Active insulin time</label>
+                  <output id="insulin-duration-value" for="insulin-duration">3.5 h</output>
+                  <input id="insulin-duration" type="range" min="2" max="5" step="0.5" value="3.5">
+                </div>
+                <div class="glucose-control">
+                  <label for="insulin-carb-ratio">Insulin-to-carbohydrate ratio</label>
+                  <output id="insulin-carb-ratio-value" for="insulin-carb-ratio">10 g/unit</output>
+                  <input id="insulin-carb-ratio" type="range" min="5" max="15" step="0.5" value="10">
+                </div>
+                <div class="glucose-control">
+                  <label for="insulin-sensitivity">Insulin sensitivity</label>
+                  <output id="insulin-sensitivity-value" for="insulin-sensitivity">3.0 mmol/l/unit</output>
+                  <input id="insulin-sensitivity" type="range" min="1" max="5" step="0.1" value="3">
+                </div>
+              </div>
+            </div>
+          </article>
+          </div>
         </section>
       </main>
 
@@ -306,6 +425,117 @@
 
       gridCount.addEventListener("input", updateCdfChart);
       updateCdfChart();
+
+      const glucoseControls = [
+        "start-glucose",
+        "carbohydrates",
+        "insulin-units",
+        "insulin-onset",
+        "insulin-duration",
+        "insulin-carb-ratio",
+        "insulin-sensitivity"
+      ].reduce((controls, id) => {
+        controls[id] = document.getElementById(id);
+        return controls;
+      }, {});
+
+      const glucosePredictionCurve = document.getElementById("glucose-prediction-curve");
+      const glucoseEndPoint = document.getElementById("glucose-end-point");
+      const glucoseMealBolus = document.getElementById("glucose-meal-bolus");
+      const glucoseEndChange = document.getElementById("glucose-end-change");
+      const glucoseXLeft = 56;
+      const glucoseXRight = 620;
+      const glucoseYTop = 24;
+      const glucoseYBottom = 354;
+      const glucoseMaximum = 30;
+
+      function glucoseChartX(hours) {
+        return glucoseXLeft + (hours / 6) * (glucoseXRight - glucoseXLeft);
+      }
+
+      function glucoseChartY(glucose) {
+        const clampedGlucose = Math.max(0, Math.min(glucoseMaximum, glucose));
+        return glucoseYBottom - (clampedGlucose / glucoseMaximum) * (glucoseYBottom - glucoseYTop);
+      }
+
+      function updateGlucoseOutputs() {
+        document.getElementById("start-glucose-value").value =
+          `${Number(glucoseControls["start-glucose"].value).toFixed(1)} mmol/l`;
+        document.getElementById("carbohydrates-value").value =
+          `${Number(glucoseControls.carbohydrates.value).toFixed(0)} g`;
+        document.getElementById("insulin-units-value").value =
+          `${Number(glucoseControls["insulin-units"].value).toFixed(1)} units`;
+        document.getElementById("insulin-onset-value").value =
+          `${Number(glucoseControls["insulin-onset"].value).toFixed(0)} min`;
+        document.getElementById("insulin-duration-value").value =
+          `${Number(glucoseControls["insulin-duration"].value).toFixed(1)} h`;
+        document.getElementById("insulin-carb-ratio-value").value =
+          `${Number(glucoseControls["insulin-carb-ratio"].value).toFixed(1)} g/unit`;
+        document.getElementById("insulin-sensitivity-value").value =
+          `${Number(glucoseControls["insulin-sensitivity"].value).toFixed(1)} mmol/l/unit`;
+      }
+
+      function predictedGlucose(minutes) {
+        const start = Number(glucoseControls["start-glucose"].value);
+        const carbohydrates = Number(glucoseControls.carbohydrates.value);
+        const insulinUnits = Number(glucoseControls["insulin-units"].value);
+        const onsetMinutes = Number(glucoseControls["insulin-onset"].value);
+        const durationMinutes = Number(glucoseControls["insulin-duration"].value) * 60;
+        const insulinSensitivity = Number(glucoseControls["insulin-sensitivity"].value);
+
+        const carbohydratePeak = 75;
+        const carbohydrateWidth = 55;
+        const carbohydrateAmplitude = carbohydrates * 0.11;
+        const carbohydrateEffect = carbohydrateAmplitude *
+          Math.exp(-0.5 * Math.pow((minutes - carbohydratePeak) / carbohydrateWidth, 2));
+
+        const minutesSinceOnset = minutes - onsetMinutes;
+        let insulinEffect = 0;
+        if (minutesSinceOnset >= 0 && minutesSinceOnset <= durationMinutes) {
+          const progress = minutesSinceOnset / durationMinutes;
+          const insulinActionShape = Math.pow(Math.sin(Math.PI * progress), 0.8);
+          insulinEffect = insulinUnits * insulinSensitivity * insulinActionShape;
+        }
+
+        return Math.max(2, Math.min(glucoseMaximum, start + carbohydrateEffect - insulinEffect));
+      }
+
+      function updateGlucoseChart() {
+        updateGlucoseOutputs();
+
+        const carbohydrateAmount = Number(glucoseControls.carbohydrates.value);
+        const insulinCarbRatio = Number(glucoseControls["insulin-carb-ratio"].value);
+        const mealBolus = carbohydrateAmount / insulinCarbRatio;
+        glucoseMealBolus.textContent = `${mealBolus.toFixed(1)} units`;
+
+        const curveCommands = [];
+        let endGlucose = predictedGlucose(360);
+        for (let index = 0; index <= 180; index += 1) {
+          const minutes = index * 2;
+          const hours = minutes / 60;
+          const glucose = predictedGlucose(minutes);
+          curveCommands.push(
+            `${index === 0 ? "M" : "L"} ${glucoseChartX(hours).toFixed(2)} ${glucoseChartY(glucose).toFixed(2)}`
+          );
+          if (index === 180) {
+            endGlucose = glucose;
+          }
+        }
+        glucosePredictionCurve.setAttribute("d", curveCommands.join(" "));
+
+        glucoseEndPoint.setAttribute("cx", glucoseChartX(6).toFixed(2));
+        glucoseEndPoint.setAttribute("cy", glucoseChartY(endGlucose).toFixed(2));
+
+        const startGlucose = Number(glucoseControls["start-glucose"].value);
+        const endChange = endGlucose - startGlucose;
+        const sign = endChange > 0 ? "+" : "";
+        glucoseEndChange.textContent = `${sign}${endChange.toFixed(1)} mmol/l`;
+      }
+
+      for (const control of Object.values(glucoseControls)) {
+        control.addEventListener("input", updateGlucoseChart);
+      }
+      updateGlucoseChart();
     </script>
   </body>
 </html>
