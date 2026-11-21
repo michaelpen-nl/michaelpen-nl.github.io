@@ -321,6 +321,57 @@
               </div>
             </div>
           </article>
+          <article class="research-card learning-blog-card bivariate-card">
+            <h3>Bivariate distribution of health and income</h3>
+            <p>
+              This illustrative example uses a standard bivariate normal
+              distribution. The health axis represents a standardized health
+              outcome and the income axis represents standardized log median
+              household income. Adjust rho to see how their association changes
+              both the joint CDF level curves and density heatmap.
+            </p>
+            <div class="bivariate-widget">
+              <div class="bivariate-panels">
+                <figure class="bivariate-panel">
+                  <figcaption>Bivariate CDF</figcaption>
+                  <canvas
+                    id="bivariate-cdf"
+                    width="520"
+                    height="420"
+                    role="img"
+                    aria-label="Contour plot of a bivariate cumulative distribution"
+                  ></canvas>
+                </figure>
+                <figure class="bivariate-panel">
+                  <figcaption>Joint density heatmap</figcaption>
+                  <canvas
+                    id="bivariate-density"
+                    width="520"
+                    height="420"
+                    role="img"
+                    aria-label="Heatmap of a bivariate normal density"
+                  ></canvas>
+                </figure>
+              </div>
+              <div class="bivariate-control">
+                <label for="bivariate-rho">Correlation (rho)</label>
+                <output id="bivariate-rho-value" for="bivariate-rho">-0.50</output>
+                <input
+                  id="bivariate-rho"
+                  type="range"
+                  min="-0.90"
+                  max="0.90"
+                  step="0.05"
+                  value="-0.50"
+                  aria-describedby="bivariate-rho-description"
+                >
+                <p id="bivariate-rho-description">
+                  Illustrative association only; no estimated health or income
+                  coefficients are displayed.
+                </p>
+              </div>
+            </div>
+          </article>
           </div>
         </section>
       </main>
@@ -425,6 +476,245 @@
 
       gridCount.addEventListener("input", updateCdfChart);
       updateCdfChart();
+
+      const bivariateRho = document.getElementById("bivariate-rho");
+      const bivariateRhoValue = document.getElementById("bivariate-rho-value");
+      const bivariateCdfCanvas = document.getElementById("bivariate-cdf");
+      const bivariateDensityCanvas = document.getElementById("bivariate-density");
+      const bivariateXMin = -3;
+      const bivariateXMax = 3;
+      const bivariateYMin = -3;
+      const bivariateYMax = 3;
+      const bivariateLeft = 54;
+      const bivariateRight = 500;
+      const bivariateTop = 24;
+      const bivariateBottom = 374;
+
+      function bivariateChartX(value) {
+        return bivariateLeft + ((value - bivariateXMin) / (bivariateXMax - bivariateXMin)) *
+          (bivariateRight - bivariateLeft);
+      }
+
+      function bivariateChartY(value) {
+        return bivariateBottom - ((value - bivariateYMin) / (bivariateYMax - bivariateYMin)) *
+          (bivariateBottom - bivariateTop);
+      }
+
+      function bivariateDensity(x, y, rho) {
+        const rhoSquared = 1 - rho * rho;
+        const exponent = -(x * x - 2 * rho * x * y + y * y) / (2 * rhoSquared);
+        return Math.exp(exponent) / (2 * Math.PI * Math.sqrt(rhoSquared));
+      }
+
+      function bivariateCdf(x, y, rho) {
+        const conditionalScale = Math.sqrt(1 - rho * rho);
+        const lower = bivariateXMin;
+        const upper = x;
+        if (upper <= lower) {
+          return 0;
+        }
+
+        const intervals = 80;
+        const step = (upper - lower) / intervals;
+        let integral = 0;
+        for (let index = 0; index <= intervals; index += 1) {
+          const health = lower + index * step;
+          const conditionalProbability =
+            standardNormalCdf((y - rho * health) / conditionalScale);
+          const weight = index === 0 || index === intervals ? 1 : (index % 2 === 0 ? 2 : 4);
+          integral += weight * conditionalProbability *
+            (Math.exp(-0.5 * health * health) / Math.sqrt(2 * Math.PI));
+        }
+        return integral * step / 3;
+      }
+
+      function drawBivariateAxes(context, title) {
+        context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+        context.fillStyle = "#fbf7ef";
+        context.fillRect(0, 0, context.canvas.width, context.canvas.height);
+        context.strokeStyle = "#ded1bd";
+        context.lineWidth = 1;
+
+        for (let tick = -3; tick <= 3; tick += 1) {
+          const x = bivariateChartX(tick);
+          const y = bivariateChartY(tick);
+          context.beginPath();
+          context.moveTo(x, bivariateTop);
+          context.lineTo(x, bivariateBottom);
+          context.stroke();
+          context.beginPath();
+          context.moveTo(bivariateLeft, y);
+          context.lineTo(bivariateRight, y);
+          context.stroke();
+
+          context.fillStyle = "#705765";
+          context.font = "12px Segoe UI, Arial, sans-serif";
+          context.textAlign = "center";
+          context.textBaseline = "top";
+          context.fillText(String(tick), x, bivariateBottom + 8);
+          context.textAlign = "right";
+          context.textBaseline = "middle";
+          context.fillText(String(tick), bivariateLeft - 8, y);
+        }
+
+        context.strokeStyle = "#705765";
+        context.lineWidth = 1.2;
+        context.strokeRect(
+          bivariateLeft,
+          bivariateTop,
+          bivariateRight - bivariateLeft,
+          bivariateBottom - bivariateTop
+        );
+
+        context.fillStyle = "#4b1b2b";
+        context.font = "700 13px Segoe UI, Arial, sans-serif";
+        context.textAlign = "center";
+        context.textBaseline = "bottom";
+        context.fillText("Standardized health", (bivariateLeft + bivariateRight) / 2, 416);
+        context.save();
+        context.translate(16, (bivariateTop + bivariateBottom) / 2);
+        context.rotate(-Math.PI / 2);
+        context.fillText("Standardized income", 0, 0);
+        context.restore();
+        context.fillText(title, (bivariateLeft + bivariateRight) / 2, 16);
+      }
+
+      function contourSegments(grid, level, cells) {
+        const segments = [];
+        for (let row = 0; row < cells - 1; row += 1) {
+          for (let column = 0; column < cells - 1; column += 1) {
+            const values = [
+              grid[row][column],
+              grid[row][column + 1],
+              grid[row + 1][column + 1],
+              grid[row + 1][column]
+            ];
+            const states = values.map(value => value >= level ? 1 : 0);
+            const code = states[0] + states[1] * 2 + states[2] * 4 + states[3] * 8;
+            if (code === 0 || code === 15) continue;
+
+            const x0 = bivariateChartX(bivariateXMin + (column / (cells - 1)) * 6);
+            const x1 = bivariateChartX(bivariateXMin + ((column + 1) / (cells - 1)) * 6);
+            const y0 = bivariateChartY(bivariateYMin + (row / (cells - 1)) * 6);
+            const y1 = bivariateChartY(bivariateYMin + ((row + 1) / (cells - 1)) * 6);
+            const points = {
+              top: [
+                x0 + interpolateFraction(values[0], values[1], level) * (x1 - x0),
+                y0
+              ],
+              right: [
+                x1,
+                y0 + interpolateFraction(values[1], values[2], level) * (y1 - y0)
+              ],
+              bottom: [
+                x1 - interpolateFraction(values[2], values[3], level) * (x1 - x0),
+                y1
+              ],
+              left: [
+                x0,
+                y1 - interpolateFraction(values[3], values[0], level) * (y1 - y0)
+              ]
+            };
+
+            const edgeMap = {
+              1: ["left", "top"], 2: ["top", "right"], 3: ["left", "right"],
+              4: ["right", "bottom"], 5: ["top", "right", "bottom", "left"],
+              6: ["top", "bottom"], 7: ["left", "bottom"],
+              8: ["left", "bottom"], 9: ["top", "bottom"],
+              10: ["top", "left", "right", "bottom"], 11: ["right", "bottom"],
+              12: ["left", "right"], 13: ["top", "right"], 14: ["left", "top"]
+            };
+            const edges = edgeMap[code];
+            if (!edges) continue;
+            for (let index = 0; index < edges.length; index += 2) {
+              if (edges[index + 1]) {
+                segments.push([points[edges[index]], points[edges[index + 1]]]);
+              }
+            }
+          }
+        }
+        return segments;
+      }
+
+      function interpolateFraction(valueA, valueB, level) {
+        const fraction = (level - valueA) / (valueB - valueA);
+        return Math.max(0, Math.min(1, Number.isFinite(fraction) ? fraction : 0));
+      }
+
+      function updateBivariateWidget() {
+        const rho = Number(bivariateRho.value);
+        bivariateRhoValue.value = rho.toFixed(2);
+
+        const cdfContext = bivariateCdfCanvas.getContext("2d");
+        drawBivariateAxes(cdfContext, "Bivariate CDF");
+
+        const cdfGridSize = 41;
+        const cdfGrid = [];
+        for (let row = 0; row < cdfGridSize; row += 1) {
+          cdfGrid[row] = [];
+          const y = bivariateYMin + (row / (cdfGridSize - 1)) * 6;
+          for (let column = 0; column < cdfGridSize; column += 1) {
+            const x = bivariateXMin + (column / (cdfGridSize - 1)) * 6;
+            cdfGrid[row][column] = bivariateCdf(x, y, rho);
+          }
+        }
+
+        const levels = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9];
+        levels.forEach((level, levelIndex) => {
+          const segments = contourSegments(cdfGrid, level, cdfGridSize);
+          cdfContext.beginPath();
+          cdfContext.strokeStyle = levelIndex < 5 ? "#705765" : "#b5312d";
+          cdfContext.lineWidth = levelIndex === 4 ? 2.2 : 1.25;
+          for (const segment of segments) {
+            cdfContext.moveTo(segment[0][0], segment[0][1]);
+            cdfContext.lineTo(segment[1][0], segment[1][1]);
+          }
+          cdfContext.stroke();
+        });
+
+        const densityContext = bivariateDensityCanvas.getContext("2d");
+        drawBivariateAxes(densityContext, "Joint density");
+
+        const densityGridSize = 60;
+        let maximumDensity = 0;
+        const densities = [];
+        for (let row = 0; row < densityGridSize; row += 1) {
+          densities[row] = [];
+          const y = bivariateYMin + (row / (densityGridSize - 1)) * 6;
+          for (let column = 0; column < densityGridSize; column += 1) {
+            const x = bivariateXMin + (column / (densityGridSize - 1)) * 6;
+            const density = bivariateDensity(x, y, rho);
+            densities[row][column] = density;
+            maximumDensity = Math.max(maximumDensity, density);
+          }
+        }
+
+        const cellWidth = (bivariateRight - bivariateLeft) / densityGridSize;
+        const cellHeight = (bivariateBottom - bivariateTop) / densityGridSize;
+        for (let row = 0; row < densityGridSize; row += 1) {
+          for (let column = 0; column < densityGridSize; column += 1) {
+            const intensity = densities[row][column] / maximumDensity;
+            const red = Math.round(248 - 164 * intensity);
+            const green = Math.round(247 - 198 * intensity);
+            const blue = Math.round(239 - 104 * intensity);
+            densityContext.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+            const x = bivariateLeft + column * cellWidth;
+            const y = bivariateBottom - (row + 1) * cellHeight;
+            densityContext.fillRect(x, y, Math.ceil(cellWidth), Math.ceil(cellHeight));
+          }
+        }
+        densityContext.strokeStyle = "#705765";
+        densityContext.lineWidth = 1.2;
+        densityContext.strokeRect(
+          bivariateLeft,
+          bivariateTop,
+          bivariateRight - bivariateLeft,
+          bivariateBottom - bivariateTop
+        );
+      }
+
+      bivariateRho.addEventListener("input", updateBivariateWidget);
+      updateBivariateWidget();
 
       const glucoseControls = [
         "start-glucose",

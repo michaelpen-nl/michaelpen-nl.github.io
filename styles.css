@@ -401,6 +401,65 @@ main {
   accent-color: #b5312d;
 }
 
+.bivariate-panels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bivariate-panel {
+  min-width: 0;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #d6c3aa;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.bivariate-panel figcaption {
+  margin-bottom: 6px;
+  color: var(--card-ink);
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.bivariate-panel canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fbf7ef;
+}
+
+.bivariate-control {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #d6c3aa;
+}
+
+.bivariate-control label,
+.bivariate-control output {
+  color: var(--card-ink);
+  font-size: 0.94rem;
+  font-weight: 700;
+}
+
+.bivariate-control input {
+  grid-column: 1 / -1;
+  width: 100%;
+  accent-color: #b5312d;
+}
+
+.bivariate-control p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--card-muted);
+  font-size: 0.86rem;
+}
+
 .eyebrow {
   margin: 0 0 22px;
   color: var(--accent);
@@ -751,6 +810,10 @@ footer {
 
   .glucose-controls,
   .glucose-results {
+    grid-template-columns: 1fr;
+  }
+
+  .bivariate-panels {
     grid-template-columns: 1fr;
   }
 }
