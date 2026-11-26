@@ -132,6 +132,11 @@ main {
   line-height: 1.55;
 }
 
+.profile-cv-section li > ul {
+  margin-top: 0;
+  list-style-type: circle;
+}
+
 .profile-cv-section li::marker {
   color: var(--accent);
 }
@@ -146,6 +151,10 @@ main {
 
 .learning-blog-content {
   min-width: 0;
+}
+
+.content-grid.learning-blog-grid {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .learning-blog-card {
